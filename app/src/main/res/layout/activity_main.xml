@@ -1,20 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.speex.ndkcmake.MainActivity">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/sample_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:text="你好小丽丽"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="stringForJNI"
+            android:padding="4dp"
+            android:text="C++继承使用/C++返回JNI字符串"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="stringFor2JNI"
+            android:padding="4dp"
+            android:text="C++ jstring字符串拼接"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onAccessJavaFieldClick"
+            android:padding="4dp"
+            android:text="C++获取Java public 属性值并修改"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onAccessJavaStaticFieldClick"
+            android:padding="4dp"
+            android:text="C++获取Java static 属性值并修改"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onAccessJavaMethodClick"
+            android:padding="4dp"
+            android:text="C++访问java中的public方法"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onAccessJavaStaticMethodClick"
+            android:padding="4dp"
+            android:text="C++访问java中的静态方法"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onAccessJavaFatherMethodClick"
+            android:padding="4dp"
+            android:text="C++访问java中对象的父类方法"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onGetChineseFromC1Click"
+            android:padding="4dp"
+            android:text="解决C++获取java中文乱码问题"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onGetChineseFromC2Click"
+            android:padding="4dp"
+            android:text="解决C++传递中文到java中文乱码问题"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onGetByteArrayFromCClick"
+            android:padding="4dp"
+            android:text="C++返回一个int[]数组给Java"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="onGetSortedArrayClick"
+            android:padding="4dp"
+            android:text="C++对java传入的double[]排序后输出"/>
+
+    </LinearLayout>
+
+</ScrollView>
