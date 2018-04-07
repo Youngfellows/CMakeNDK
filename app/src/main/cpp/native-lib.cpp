@@ -127,17 +127,6 @@ Java_com_speex_ndkcmake_JNIUtils_arrayList(JNIEnv *env, jobject instance, jstrin
 }
 
 
-extern "C"
-JNIEXPORT jobjectArray JNICALL
-Java_com_speex_ndkcmake_JNIUtils_stringArray(JNIEnv *env, jobject instance, jstring key_) {
-    const char *key = env->GetStringUTFChars(key_, 0);
-
-    // TODO
-
-    env->ReleaseStringUTFChars(key_, key);
-}
-
-
 /**
  * C/C++层访问Java对象的属性
  * C++->Java，访问Java属性，返回修改之后的属性内容
@@ -350,3 +339,36 @@ Java_com_speex_ndkcmake_JNIUtils_getSortedArray(JNIEnv *env, jobject instance,
     return origin_;
 }
 
+/**
+ * C++返回String[]数组到java
+ */
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_speex_ndkcmake_JNIUtils_stringArrayForCPP(JNIEnv *env, jobject jobj, jint size) {
+    //获取String对象
+    jclass jclazz = env->FindClass("java/lang/String");
+
+    if (jclazz == NULL) {
+        return NULL;
+    }
+
+    //创建jobjectArray对象
+    jobjectArray string_array = env->NewObjectArray(size, jclazz, 0);
+
+    if (string_array == NULL) {
+        return NULL;
+    }
+
+    //赋值
+    char buf[128];//缓冲区大小
+    for (int i = 0; i < size; i++) {
+        snprintf(buf, sizeof(buf), "这是C++的字符串%d", i);//int 写入char *字符串
+        jstring jstr = env->NewStringUTF(buf);
+
+        // 将jstring 赋值给数组
+        env->SetObjectArrayElement(string_array, i, jstr);
+    }
+
+    //返回jobjectArray
+    return string_array;
+}

@@ -169,4 +169,20 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "排序后: " + builder.toString());
         mTvShow.setText("排序后: " + builder.toString());
     }
+
+    /**
+     * C++返回string[]数组
+     *
+     * @param view
+     */
+    public void onGetStringArrayClick(View view) {
+        StringBuilder builder = new StringBuilder();
+        String[] strings = mJNIUtils.stringArrayForCPP(10);
+        for (int i = 0; i < strings.length; i++) {
+            Log.i(TAG, strings[i] + "\n");
+            builder.append(strings[i] + "\n");
+        }
+        mTvShow.setText(builder.toString());
+        Log.i(TAG, "C++返回的String[]: " + strings.toString());
+    }
 }

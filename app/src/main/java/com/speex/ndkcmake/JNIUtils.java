@@ -44,8 +44,6 @@ public class JNIUtils {
 
     public native ArrayList<String> arrayList(String key);//获取JNI返回的ArrayList
 
-    public native String[] stringArray(String key);//获取JNI返回的String[]数组
-
     public native String accessJavaField();// C->Java，访问Java属性，返回修改之后的属性内容
 
     public native void accessJavaStaticField();//C->Java，访问Java静态属性
@@ -63,4 +61,6 @@ public class JNIUtils {
     public native int[] getByteArrayFromC();// C++ -> Java，返回一个int[]数组给Java
 
     public native double[] getSortedArray(double[] origin);//C++->Java，C/C++对传入的数组进行排序后返回
+
+    public native String[] stringArrayForCPP(int size);//获取JNI返回的String[]数组
 }
