@@ -11,6 +11,7 @@ import java.util.UUID;
 public class JNIUtils {
     static {
         System.loadLibrary("native-lib");
+        System.loadLibrary("other-lib");
     }
 
     //父类的引用指向一个子类的对象
@@ -63,4 +64,6 @@ public class JNIUtils {
     public native double[] getSortedArray(double[] origin);//C++->Java，C/C++对传入的数组进行排序后返回
 
     public native String[] stringArrayForCPP(int size);//获取JNI返回的String[]数组
+
+    public native void otherCPP();
 }

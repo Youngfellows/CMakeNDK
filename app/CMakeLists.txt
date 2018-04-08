@@ -11,6 +11,10 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 
+#设置生成的so动态库最后输出的路径
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI})
+
+
 add_library( # Sets the name of the library.
              native-lib
 
@@ -22,6 +26,15 @@ add_library( # Sets the name of the library.
              src/main/cpp/Person.cpp
              #src/main/cpp/Student.cpp
              src/main/cpp/Teacher.cpp)
+
+add_library( # Sets the name of the library.
+             other-lib
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+             src/main/cpp/other.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -43,6 +56,14 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        native-lib
 
+
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
+                                              other-lib
+
+                                              # Links the target library to the log library
+                                              # included in the NDK.
+                                              ${log-lib} )

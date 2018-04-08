@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         mTvShow = findViewById(R.id.tv_show);//显示调用结果
 
         mJNIUtils = new JNIUtils();
+        mJNIUtils.otherCPP();
     }
 
     /**
