@@ -88,44 +88,6 @@ Java_com_speex_ndkcmake_JNIUtils_stringFor2JNI(JNIEnv *env, jobject instance, js
 }
 
 
-extern "C"
-JNIEXPORT jdouble JNICALL
-Java_com_speex_ndkcmake_JNIUtils_doubleForJNI(JNIEnv *env, jobject instance, jdouble salary,
-                                              jdouble bonus) {
-
-    // TODO
-
-}
-
-extern "C"
-JNIEXPORT jboolean JNICALL
-Java_com_speex_ndkcmake_JNIUtils_booleanForJNI(JNIEnv *env, jobject instance, jstring key_) {
-    const char *key = env->GetStringUTFChars(key_, 0);
-
-    // TODO
-
-    env->ReleaseStringUTFChars(key_, key);
-}
-
-extern "C"
-JNIEXPORT jint JNICALL
-Java_com_speex_ndkcmake_JNIUtils_intForJNI(JNIEnv *env, jobject instance, jint apple, jint orange) {
-
-    // TODO
-
-}
-
-
-extern "C"
-JNIEXPORT jobject JNICALL
-Java_com_speex_ndkcmake_JNIUtils_arrayList(JNIEnv *env, jobject instance, jstring key_) {
-    const char *key = env->GetStringUTFChars(key_, 0);
-
-    // TODO
-
-    env->ReleaseStringUTFChars(key_, key);
-}
-
 
 /**
  * C/C++层访问Java对象的属性
@@ -372,3 +334,4 @@ Java_com_speex_ndkcmake_JNIUtils_stringArrayForCPP(JNIEnv *env, jobject jobj, ji
     //返回jobjectArray
     return string_array;
 }
+

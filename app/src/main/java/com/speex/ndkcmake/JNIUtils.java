@@ -1,6 +1,5 @@
 package com.speex.ndkcmake;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -37,14 +36,6 @@ public class JNIUtils {
 
     public native String stringFor2JNI(String address);//获取JNI返回的String
 
-    public native double doubleForJNI(double salary, double bonus);//获取JNI返回的double
-
-    public native boolean booleanForJNI(String key);//获取JNI返回的boolean
-
-    public native int intForJNI(int apple, int orange);//获取JNI返回的int
-
-    public native ArrayList<String> arrayList(String key);//获取JNI返回的ArrayList
-
     public native String accessJavaField();// C->Java，访问Java属性，返回修改之后的属性内容
 
     public native void accessJavaStaticField();//C->Java，访问Java静态属性
@@ -65,5 +56,20 @@ public class JNIUtils {
 
     public native String[] stringArrayForCPP(int size);//获取JNI返回的String[]数组
 
-    public native void otherCPP();
+    /**
+     * other-lib.so相关
+     */
+    public native double doubleForJNI(double salary, double bonus);//获取JNI返回的double
+
+    public native String stringsForJNI(String str);//获取JNI返回的string
+
+    public native boolean booleanForJNI();//获取JNI返回的boolean
+
+    public native int intForJNI(int apple, int orange);//获取JNI返回的int
+
+    public native String[] stringArrayForJNI(String key);//获取JNI返回的ArrayList
+
+    public native byte[] getByteArray(byte[] data);//获取字节数组
+
+    public native void invokeStaticFieldAndMethod(String name, int age, String address, double salary);//C++调用Java静态方法和静态变量
 }

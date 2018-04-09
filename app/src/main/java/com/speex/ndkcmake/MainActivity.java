@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.speex.ndkcmake.utils.SpeexUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getSimpleName();
@@ -18,9 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTvShow = findViewById(R.id.tv_show);//显示调用结果
-
         mJNIUtils = new JNIUtils();
-        mJNIUtils.otherCPP();
     }
 
     /**
@@ -185,5 +185,55 @@ public class MainActivity extends AppCompatActivity {
         }
         mTvShow.setText(builder.toString());
         Log.i(TAG, "C++返回的String[]: " + strings.toString());
+    }
+
+    /**
+     * C++返回double
+     *
+     * @param view
+     */
+    public void onGetDoubleClick(View view) {
+        double result = mJNIUtils.doubleForJNI(1024.4, 32.4);
+        mTvShow.setText(result + "");
+        Log.i(TAG, "onGetDoubleClick: result = " + result);
+    }
+
+    /**
+     * C++返回的String
+     *
+     * @param view
+     */
+    public void onGetStringClick(View view) {
+        String serio = mJNIUtils.stringsForJNI("ro.serialno");
+        mTvShow.setText("设备序列号serio: " + serio);
+        Log.i(TAG, "设备序列号serio: " + serio);
+    }
+
+    /**
+     * 获取C++返回的byte[]数组
+     *
+     * @param view
+     */
+    public void onGetByteArrayClick(View view) {
+        StringBuilder builder = new StringBuilder();
+        byte array[] = {'A', 'B', 'C', 'D', 'E', 'a'};
+        byte[] resutl = mJNIUtils.getByteArray(array);
+        for (int i = 0; i < array.length; i++) {
+            Log.d(TAG, "ARRAY : " + array[i] + "->" + resutl[i]);
+            builder.append(resutl[i] + " ");
+        }
+        mTvShow.setText(builder.toString());
+    }
+
+    /**
+     * C++获取java类的静态属性和静态方法
+     *
+     * @param view
+     */
+    public void onGetStaticFieldAndMethodClick(View view) {
+        Log.i(TAG, "Speex.STATIC_FIELD前: " + SpeexUtils.STATIC_FIELD);
+        mJNIUtils.invokeStaticFieldAndMethod("aispeex", 34, "广东深圳", 12804);
+        Log.i(TAG, "Speex.STATIC_FIELD后: " + SpeexUtils.STATIC_FIELD);
+
     }
 }
