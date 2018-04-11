@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.speex.ndkcmake.bean.Person;
 import com.speex.ndkcmake.utils.SpeexUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -247,5 +248,25 @@ public class MainActivity extends AppCompatActivity {
         String j_string = mJNIUtils.invokeJavaObject("丽丽", 24);
         Toast.makeText(this, j_string, Toast.LENGTH_SHORT).show();
         mTvShow.setText(j_string);
+    }
+
+    /**
+     * C++返回Person对象数组给Java
+     *
+     * @param view
+     */
+    public void invokePersonArray(View view) {
+        StringBuilder builder = new StringBuilder();
+        Person[] persns = mJNIUtils.getPersonArrayForJNI();
+
+        if (persns != null) {
+            if (persns.length > 0) {
+                for (Person person : persns) {
+                    person.toString();
+                    builder.append(person.toString() + "\n");
+                }
+            }
+        }
+        mTvShow.setText(builder.toString());
     }
 }

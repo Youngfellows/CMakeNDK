@@ -1,5 +1,7 @@
 package com.speex.ndkcmake;
 
+import com.speex.ndkcmake.bean.Person;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -74,5 +76,7 @@ public class JNIUtils {
     public native void invokeStaticFieldAndMethod(String name, int age, String address, double salary);//C++调用Java静态方法和静态变量
 
     public native String invokeJavaObject(String name, int age);//C++调用Java对象
+
+    public native Person[] getPersonArrayForJNI();//获取C++返回的Person[]素组
 
 }

@@ -222,3 +222,75 @@ Java_com_speex_ndkcmake_JNIUtils_invokeJavaObject(JNIEnv *env, jobject object, j
     return env->NewStringUTF(buf_result);
 }
 
+/**
+ * 获取C++返回的Person数组
+ */
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_speex_ndkcmake_JNIUtils_getPersonArrayForJNI(JNIEnv *env, jobject instance) {
+    jclass clazz = NULL;
+    jobject jobj = NULL;
+    jmethodID mid_construct = NULL;
+    jfieldID fid_age = NULL;
+    jfieldID fid_name = NULL;
+    jmethodID mid_to_string = NULL;
+    jstring j_name;
+
+    //1. 获取Person类的Class引用
+    clazz = env->FindClass("com/speex/ndkcmake/bean/Person");
+    if (clazz == NULL) {
+        LOGE("clazz null");
+        return NULL;
+    }
+
+    //2. 获取类的Person(name,age)构造函数ID
+    mid_construct = env->GetMethodID(clazz, "<init>", "(Ljava/lang/String;I)V");
+    if (mid_construct == NULL) {
+        LOGE("construct null");
+        return NULL;
+    }
+
+    //3.获取实例方法toString()和变量name,age的ID
+    fid_name = env->GetFieldID(clazz, "name", "Ljava/lang/String;");
+    fid_age = env->GetFieldID(clazz, "age", "I");
+    mid_to_string = env->GetMethodID(clazz, "toString", "()Ljava/lang/String;");
+
+    if (fid_name == NULL || fid_age == NULL) {
+        LOGE("fid_name | fid_age 为null");
+        return NULL;
+    }
+
+    //4. 处理单个对象并添加到数组
+    int size = 10;
+    jobjectArray obj_array = env->NewObjectArray(size, clazz, 0);//保存Person对象的数组
+    for (int i = 0; i < size; i++) {
+        std::string name = "香香";//string 字符串 转换为 jstring字符串
+        jint age = 24 + i;
+        jobj = env->NewObject(clazz, mid_construct, env->NewStringUTF(name.c_str()),
+                              age);//创建Person对象
+        if (jobj == NULL) {
+            LOGE("jobj null");
+            return NULL;
+        }
+        jstring tostring = (jstring) env->CallObjectMethod(jobj, mid_to_string);
+        const char *buf_result = env->GetStringUTFChars(tostring, JNI_FALSE);
+        LOGI("%d ,%s", i, buf_result);
+
+        //修改属性
+        env->SetIntField(jobj, fid_age, 23 + i);//设置年龄
+        j_name = env->NewStringUTF("大梅");
+        env->SetObjectField(jobj, fid_name, j_name);//设置姓名
+        env->SetObjectArrayElement(obj_array, i, jobj);//设置数组元素
+    }
+//    std::string name = "香香";//string 字符串 转换为 jstring字符串
+//    jobj = env->NewObject(clazz, mid_construct, env->NewStringUTF(name.c_str()), 24);
+//    jstring tostring = (jstring) env->CallObjectMethod(jobj, mid_to_string);
+//    const char *buf_result = env->GetStringUTFChars(tostring, JNI_FALSE);
+//    LOGI("%s", buf_result);
+
+    //5. 释放局部变量
+    env->DeleteLocalRef(clazz);
+    env->DeleteLocalRef(jobj);
+    return obj_array;
+}
+

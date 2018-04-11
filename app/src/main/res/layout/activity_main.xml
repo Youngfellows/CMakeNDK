@@ -156,6 +156,14 @@
             android:padding="4dp"
             android:text="C++获取java对象"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="invokePersonArray"
+            android:padding="4dp"
+            android:text="C++返回Person对象数组给java"/>
+
     </LinearLayout>
 
 </ScrollView>
