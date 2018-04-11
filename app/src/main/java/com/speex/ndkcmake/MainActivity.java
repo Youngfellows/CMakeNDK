@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.speex.ndkcmake.utils.SpeexUtils;
 
@@ -235,5 +236,16 @@ public class MainActivity extends AppCompatActivity {
         mJNIUtils.invokeStaticFieldAndMethod("aispeex", 34, "广东深圳", 12804);
         Log.i(TAG, "Speex.STATIC_FIELD后: " + SpeexUtils.STATIC_FIELD);
 
+    }
+
+    /**
+     * C++获取Java对象
+     *
+     * @param view
+     */
+    public void invokeJavaObject(View view) {
+        String j_string = mJNIUtils.invokeJavaObject("丽丽", 24);
+        Toast.makeText(this, j_string, Toast.LENGTH_SHORT).show();
+        mTvShow.setText(j_string);
     }
 }

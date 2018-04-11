@@ -72,4 +72,7 @@ public class JNIUtils {
     public native byte[] getByteArray(byte[] data);//获取字节数组
 
     public native void invokeStaticFieldAndMethod(String name, int age, String address, double salary);//C++调用Java静态方法和静态变量
+
+    public native String invokeJavaObject(String name, int age);//C++调用Java对象
+
 }

@@ -153,7 +153,7 @@ Java_com_speex_ndkcmake_JNIUtils_invokeStaticFieldAndMethod(JNIEnv *env, jobject
     LOGI("静态方法的返回值: %s", buf_result);
 
     //释放内存
-//    env->ReleaseStringUTFChars(j_result, buf_result);
+    env->ReleaseStringUTFChars(j_result, buf_result);
 
     //4. 修改静态变量值
     env->SetStaticIntField(clazz, fid, 2048);
@@ -162,5 +162,63 @@ Java_com_speex_ndkcmake_JNIUtils_invokeStaticFieldAndMethod(JNIEnv *env, jobject
     env->DeleteLocalRef(clazz);
     env->DeleteLocalRef(j_result);
 
+}
+
+/**
+ * C++获取Java对象Person
+ */
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_speex_ndkcmake_JNIUtils_invokeJavaObject(JNIEnv *env, jobject object, jstring name_,
+                                                  jint age) {
+
+    //1. 获取Person类的Class引用
+    jclass clazz = env->FindClass("com/speex/ndkcmake/bean/Person");
+    if (clazz == NULL) {
+        LOGE("clazz null");
+        return NULL;
+    }
+
+    //2. 获取类的默认构造函数ID
+    jmethodID mid_construct = env->GetMethodID(clazz, "<init>", "(Ljava/lang/String;I)V");
+    if (mid_construct == NULL) {
+        LOGE("construct null");
+        return NULL;
+    }
+
+    //3. 获取实例方法ID和变量ID
+    jfieldID fid_name = env->GetFieldID(clazz, "name", "Ljava/lang/String;");
+    jfieldID fid_age = env->GetFieldID(clazz, "age", "I");
+    jmethodID mid_to_string = env->GetMethodID(clazz, "toString", "()Ljava/lang/String;");
+
+    //4. 创建该类Person的实例
+    jobject jobj = env->NewObject(clazz, mid_construct, name_, age);
+
+    if (jobj == NULL) {
+        LOGE("jobject null");
+        return NULL;
+    }
+
+    //5.修改age/name变量的值
+    env->SetIntField(jobj, fid_age, age);//修改age变量的值
+
+    jstring j_new_str = env->NewStringUTF("小红");
+    env->SetObjectField(jobj, fid_name, j_new_str);//修改name属性
+
+    //6.调用实例方法toString()
+    jstring j_result = (jstring) env->CallObjectMethod(jobj, mid_to_string);
+    const char *buf_result = env->GetStringUTFChars(j_result, JNI_FALSE);//结果
+    LOGI("Person toString = %s", buf_result);
+
+    //7.释放内存
+    env->ReleaseStringUTFChars(j_result, buf_result);
+
+    //8. 释放局部引用
+    env->DeleteLocalRef(clazz);
+    env->DeleteLocalRef(jobj);
+    env->DeleteLocalRef(j_new_str);
+    env->DeleteLocalRef(j_result);
+
+    return env->NewStringUTF(buf_result);
 }
 
