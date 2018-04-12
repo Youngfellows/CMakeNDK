@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.speex.ndkcmake.bean.Animal;
+import com.speex.ndkcmake.bean.Dog;
 import com.speex.ndkcmake.bean.Person;
 import com.speex.ndkcmake.utils.SpeexUtils;
 
@@ -268,5 +270,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mTvShow.setText(builder.toString());
+    }
+
+    /**
+     * C++调用Java对象父类对象和方法
+     *
+     * @param view
+     */
+    public void callSuperMethod(View view) {
+//        Animal animal = new Dog("小狗狗");
+//        String name = animal.getName();
+//        animal.run();
+//        Log.i(TAG, "name = " + name);
+
+        //C++调用java父类
+        mJNIUtils.callSuperInstanceMethod();
     }
 }

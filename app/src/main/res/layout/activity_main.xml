@@ -164,6 +164,14 @@
             android:padding="4dp"
             android:text="C++返回Person对象数组给java"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:onClick="callSuperMethod"
+            android:padding="4dp"
+            android:text="C++调用Java对象父内"/>
+
     </LinearLayout>
 
 </ScrollView>

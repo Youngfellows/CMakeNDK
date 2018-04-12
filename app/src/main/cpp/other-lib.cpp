@@ -294,3 +294,72 @@ Java_com_speex_ndkcmake_JNIUtils_getPersonArrayForJNI(JNIEnv *env, jobject insta
     return obj_array;
 }
 
+/**
+ * C++调用java父类构造方法和实例方法
+ */
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_speex_ndkcmake_JNIUtils_callSuperInstanceMethod(JNIEnv *env, jobject instance) {
+
+    //1. 获取Dog类Class引用
+    jclass cls_dog = env->FindClass("com/speex/ndkcmake/bean/Dog");
+    if (cls_dog == NULL) {
+        LOGI("获取Dog类的class引用为空");
+        return;
+    }
+
+    //2. 获取Dog类构造方法ID -->> Dog(name)含有参数的构造
+    jmethodID mid_dog_init = env->GetMethodID(cls_dog, "<init>", "(Ljava/lang/String;)V");
+    if (mid_dog_init == NULL) {
+        LOGI("Dog类对象构造方法ID为 null");
+        return;
+    }
+
+    //3. 创建Dog对象实例
+    jstring c_str_name = env->NewStringUTF("大黄");
+    jobject jobj_dog = env->NewObject(cls_dog, mid_dog_init, c_str_name);
+    if (jobj_dog == NULL) {
+        LOGI("创建dog对象为空");
+        return;
+    }
+
+    //4. 获取animal类Class引用
+    jclass cls_animal = env->FindClass("com/speex/ndkcmake/bean/Animal");
+    if (cls_animal == NULL) {
+        LOGI("获取Animal类的class引用为null");
+        return;
+    }
+
+    //5. 获取Animal父类run方法ID并调用
+    jmethodID mid_run = env->GetMethodID(cls_animal, "run", "()V");
+    if (mid_run == NULL) {
+        LOGI("获取Animal父类run方法ID为null");
+        return;
+    }
+    //子类对象dog调用父类的run方法(执行的是父类的run方法)
+    env->CallNonvirtualVoidMethod(jobj_dog, cls_animal, mid_run);
+
+    //6. 调用父类getName方法
+    //获取父类的getName方法的ID
+    jmethodID mid_get_name = env->GetMethodID(cls_animal, "getName", "()Ljava/lang/String;");
+    if (mid_get_name == NULL) {
+        LOGI("父类的getName方法的ID为null");
+        return;
+    }
+
+    //子类对象调用父类的getName方法
+    jstring ani_name = (jstring) env->CallNonvirtualObjectMethod(jobj_dog, cls_animal,
+                                                                 mid_get_name);
+    const char *name = env->GetStringUTFChars(ani_name, JNI_FALSE);
+    LOGI("Animal名字是 %s", name);
+
+    //7. 释放从java层获取到的字符串所分配的内存
+    env->ReleaseStringUTFChars(ani_name, name);
+
+    //8. 释放局部变量
+    env->DeleteLocalRef(cls_animal);
+    env->DeleteLocalRef(cls_dog);
+    env->DeleteLocalRef(jobj_dog);
+    env->DeleteLocalRef(c_str_name);
+}
+

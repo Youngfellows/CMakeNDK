@@ -79,4 +79,6 @@ public class JNIUtils {
 
     public native Person[] getPersonArrayForJNI();//获取C++返回的Person[]素组
 
+    public native void callSuperInstanceMethod();//调用父类构造方法和实例方法
+
 }
